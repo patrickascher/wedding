@@ -1,3 +1,76 @@
+$(document).ready(function () {
+	// images in the pool
+	var images = ["url(\"assets/css/images/overlay.png\"), url(\"images/intro.jpg\")", "url(\"assets/css/images/overlay.png\"), url(\"images/intro2.jpg\")", "url(\"assets/css/images/overlay.png\"), url(\"images/intro3.jpg\")", "url(\"assets/css/images/overlay.png\"), url(\"images/intro4.jpg\")"];
+
+	// next image to display
+	var next = 0;
+
+	// interval beetween images
+	var INTERVAL = 4000;
+
+	// main function
+	var doCarrousel = function () {
+		$("#intro").fadeOut(400,function () {
+			$(this).css("background-image", images[next]).fadeIn(400,
+				function () {
+					next=next+1
+					setTimeout(doCarrousel, INTERVAL);
+				});
+		});
+
+		if (next >= images.length)
+			next = 0;
+	};
+
+	//start carrousel
+	doCarrousel();
+});
+
+(function () {
+	const second = 1000,
+		minute = second * 60,
+		hour = minute * 60,
+		day = hour * 24;
+
+	//I'm adding this section so I don't have to keep updating this pen every year :-)
+	//remove this if you don't need it
+	let today = new Date(),
+		dd = String(today.getDate()).padStart(2, "0"),
+		mm = String(today.getMonth() + 1).padStart(2, "0"),
+		yyyy = today.getFullYear(),
+		nextYear = yyyy + 1,
+		dayMonth = "07/02/",
+		birthday = dayMonth + yyyy;
+
+	today = mm + "/" + dd + "/" + yyyy;
+	if (today > birthday) {
+		birthday = dayMonth + nextYear;
+	}
+	//end
+
+	const countDown = new Date(birthday).getTime(),
+		x = setInterval(function () {
+
+			const now = new Date().getTime(),
+				distance = countDown - now;
+
+			document.getElementById("days").innerText = Math.floor(distance / (day)),
+				document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
+				document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
+				document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+
+			//do something later when date is reached
+			if (distance < 0) {
+				document.getElementById("headline").innerText = "It's my birthday!";
+				document.getElementById("countdown").style.display = "none";
+				document.getElementById("content").style.display = "block";
+				clearInterval(x);
+			}
+			//seconds
+		}, 0)
+}());
+
+
 /*
 	Big Picture by HTML5 UP
 	html5up.net | @ajlkn
@@ -77,61 +150,6 @@
 		}
 
 	// Section transitions.
-		if (browser.canUse('transition')) {
-
-			var on = function() {
-
-				// Galleries.
-					$('.gallery')
-						.scrollex({
-							top:		'30vh',
-							bottom:		'30vh',
-							delay:		50,
-							initialize:	function() { $(this).addClass('inactive'); },
-							terminate:	function() { $(this).removeClass('inactive'); },
-							enter:		function() { $(this).removeClass('inactive'); },
-							leave:		function() { $(this).addClass('inactive'); }
-						});
-
-				// Generic sections.
-					$('.main.style1')
-						.scrollex({
-							mode:		'middle',
-							delay:		100,
-							initialize:	function() { $(this).addClass('inactive'); },
-							terminate:	function() { $(this).removeClass('inactive'); },
-							enter:		function() { $(this).removeClass('inactive'); },
-							leave:		function() { $(this).addClass('inactive'); }
-						});
-
-					$('.main.style2')
-						.scrollex({
-							mode:		'middle',
-							delay:		100,
-							initialize:	function() { $(this).addClass('inactive'); },
-							terminate:	function() { $(this).removeClass('inactive'); },
-							enter:		function() { $(this).removeClass('inactive'); },
-							leave:		function() { $(this).addClass('inactive'); }
-						});
-
-				// Contact.
-					$('#contact')
-						.scrollex({
-							top:		'50%',
-							delay:		50,
-							initialize:	function() { $(this).addClass('inactive'); },
-							terminate:	function() { $(this).removeClass('inactive'); },
-							enter:		function() { $(this).removeClass('inactive'); },
-							leave:		function() { $(this).addClass('inactive'); }
-						});
-
-			};
-
-			
-
-			breakpoints.on('>small', on);
-
-		}
 
 	// Events.
 		var resizeTimeout, resizeScrollTimeout;
